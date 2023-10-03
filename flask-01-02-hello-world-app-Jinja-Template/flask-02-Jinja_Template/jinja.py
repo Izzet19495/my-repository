@@ -14,7 +14,7 @@ def number(a, b):
         total = int(a) + int(b)
         return render_template("body.html", num1 = a, num2 = b, sum = total)
     else:
-        return "Invalid Numbers!"
+        return "Invalid Numbers!!!"
 
 
 @app.route("/numbers/<string:num1>/<string:num2>")
