@@ -1,51 +1,48 @@
+#Outputs:
+
 AWSTemplateFormatVersion: 2010-09-09
 Description: |
-  Create a website using EC2 instance and security group
-
+  Create a website using an EC2 instance and security group
+  
 Parameters:
+
   pImageId:
     Description: Latest Linux AMI ID
-    Type: AWS::EC2::Image::Id
-    Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64 
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64
 
   pKeyPair:
     Description: Key pair name
     Type: AWS::EC2::KeyPair::KeyName
-
-
-Resources:
   
+Resources:
+
   rSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Enable HTTP or SSH for a web server
+      GroupDescription: Enable HTTP and SSH for a web server
       GroupName: enable-http-and-ssh
       SecurityGroupIngress: 
-      -   CidrIp: 0.0.0.0/0
-            FromPort: 80
-            ToPort: 80
-            IpProtocol: tcp
-      -   CidrIp: 0.0.0.0/0
-            FromPort: 22
-            ToPort: 22
-            IpProtocol: tcp
+      - CidrIp: 0.0.0.0/0
+        IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+      - CidrIp: 0.0.0.0/0
+        IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
 
   rWebServer:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: !Ref pImageId
       InstanceType: t2.micro
-      KeyName: izzet_ec2_ssh_key
+      KeyName: !Ref pKeyPair
       SecurityGroupIds: 
-      - !GetAtt rSecurityGroup.GroupId    
+      - !GetAtt rSecurityGroup.GroupId
       Tags: 
       - Key: Name
-          Value: izzet-web-server
-      UserData: "String"
- 
-        
-          
-
- 
+        Value: izzet-web-server
+      # UserData: "String"
   
-#Outputs:
+# Outputs:
