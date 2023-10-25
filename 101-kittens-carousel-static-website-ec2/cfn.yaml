@@ -54,7 +54,7 @@ Resources:
 
           # change to the correct directory and download web content
           cd /var/www/html
-          FOLDER="https://github.com/Izzet19495/my-repository/main/101-kittens-carousel-static-website-ec2/static-web"
+          FOLDER="https://raw.githubusercontent.com/Izzet19495/my-repository/main/101-kittens-carousel-static-website-ec2/static-web"
           wget ${FOLDER}/index.html
           wget ${FOLDER}/cat0.jpg
           wget ${FOLDER}/cat1.jpg
